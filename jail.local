@@ -1,0 +1,73 @@
+# Fail2ban jail configuration untuk SSH brute force protection
+# File: /etc/fail2ban/jail.local
+
+[DEFAULT]
+# Durasi ban dalam detik (86400 = 1 hari / 24 jam)
+bantime = 86400
+
+# Waktu untuk menghitung percobaan (10 menit)
+findtime = 600
+
+# Maksimal percobaan sebelum di-ban (1 percobaan langsung ban)
+maxretry = 3
+
+# Backend untuk monitoring log
+backend = auto
+
+# Action yang dilakukan saat ban (iptables-multiport adalah default yang bagus)
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+# Whitelist IP yang tidak akan di-ban (untuk IP dinamis, gunakan range ISP atau hapus jika tidak perlu)
+# Contoh untuk beberapa ISP Indonesia (sesuaikan dengan ISP Anda):
+# Telkom: 118.96.0.0/13, 125.160.0.0/11
+# Indihome: 182.253.0.0/16, 36.64.0.0/11  
+# XL: 103.10.0.0/15
+# ignoreip = 127.0.0.1/8 ::1 182.253.0.0/16 118.96.0.0/13
+ignoreip = 127.0.0.1/8 ::1
+
+# Email notifications (opsional)
+# destemail = your-email@domain.com
+# sender = fail2ban@yourdomain.com
+# mta = sendmail
+
+[sshd]
+# Aktifkan jail untuk SSH
+enabled = true
+
+# Port yang dimonitor (ganti jika SSH tidak di port 22)
+port = ssh
+
+# Filter yang digunakan
+filter = sshd
+
+# File log yang dimonitor
+logpath = /var/log/auth.log
+
+# Action yang dilakukan saat ada violation
+action = %(action_mwl)s
+
+# Konfigurasi khusus untuk SSH
+maxretry = 3
+findtime = 300
+bantime = 86400
+
+[sshd-ddos]
+# Jail tambahan untuk serangan DDoS SSH (menggunakan filter sshd standar)
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+findtime = 60
+bantime = 86400
+
+# Jail untuk connection flooding (sementara pakai filter sshd standar)
+[sshd-aggressive]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+findtime = 60
+bantime = 86400
