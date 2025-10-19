@@ -44,8 +44,8 @@ filter = sshd
 # File log yang dimonitor
 logpath = /var/log/auth.log
 
-# Action yang dilakukan saat ada violation
-action = %(action_mwl)s
+# Action yang dilakukan saat ada violation (tanpa email notification)
+action = %(action_)s
 
 # Konfigurasi khusus untuk SSH
 maxretry = 3
@@ -58,6 +58,7 @@ enabled = true
 port = ssh
 filter = sshd
 logpath = /var/log/auth.log
+action = %(action_)s
 maxretry = 3
 findtime = 60
 bantime = 86400
@@ -68,6 +69,7 @@ enabled = true
 port = ssh
 filter = sshd
 logpath = /var/log/auth.log
+action = %(action_)s
 maxretry = 3
 findtime = 60
 bantime = 86400
