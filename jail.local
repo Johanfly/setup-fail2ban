@@ -2,8 +2,8 @@
 # File: /etc/fail2ban/jail.local
 
 [DEFAULT]
-# Durasi ban dalam detik (2592000 = 30 hari / 1 bulan)
-bantime = 2592000
+# Durasi ban dalam detik (31536000 = 365 hari / 1 tahun)
+bantime = 365d
 
 # Waktu untuk menghitung percobaan (10 menit)
 findtime = 600
@@ -50,7 +50,7 @@ action = %(action_)s
 # Konfigurasi khusus untuk SSH
 maxretry = 3
 findtime = 300
-bantime = 2592000
+bantime = 365d
 
 [sshd-ddos]
 # Jail tambahan untuk serangan DDoS SSH (menggunakan filter sshd standar)
@@ -61,7 +61,7 @@ logpath = /var/log/auth.log
 action = %(action_)s
 maxretry = 3
 findtime = 60
-bantime = 2592000
+bantime = 365d
 
 # Jail untuk connection flooding (sementara pakai filter sshd standar)
 [sshd-aggressive]
@@ -72,4 +72,4 @@ logpath = /var/log/auth.log
 action = %(action_)s
 maxretry = 3
 findtime = 60
-bantime = 2592000
+bantime = 365d
